@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -24,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.music_player2.ui.theme.Music_player2Theme
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+
                 }
 
                 Scaffold(
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
                                     // on below line we are specifying
                                     // modifier to fill max width.
                                     modifier = Modifier.fillMaxWidth(),
-
+                                    //Nice ra Ballu
                                     // on below line we are specifying text alignment.
                                     textAlign = TextAlign.Center,
 
@@ -90,94 +91,163 @@ fun mainApp(){
 @Composable
 fun gridView(context: Context) {
 //    intialization of variables
-    val mMediaPlayer = MediaPlayer.create(context, R.raw.nv)
+    val mMediaPlayer = MediaPlayer.create(context, R.raw.madhu)
     var a by remember {
         mutableStateOf(mMediaPlayer)
     }
-//    Icon Symbol to stop
-    IconButton(onClick = {
-        a.pause()
-        Toast.makeText(context, "Stopped", Toast.LENGTH_SHORT).show()
-    }) {
-        Icon(
-            painterResource(id = R.drawable.ic_baseline_pause_24),
-            contentDescription = "Pasue",
-            modifier = Modifier
-                .size(45.dp)
-                .background(Color.Yellow)
-        )
+    var is_selected by remember {
+        mutableStateOf(false)
+    }
+    var song by remember {
+        mutableStateOf(0)
+    }
+//    songs in the app code
+    lateinit var songsList: List<GridModal>
+    songsList = ArrayList()
 
+    songsList = songsList + GridModal(
+        "Yenno ratrulu vasthai",
+        R.drawable.ami,
+        MediaPlayer.create(context, R.raw.amigo)
+    )
+    songsList = songsList + GridModal(
+        "chimiki chimiki",
+        R.drawable.chim,
+        MediaPlayer.create(context, R.raw.chim)
+    )
+    songsList = songsList + GridModal(
+        "Gudellona Gudellona",
+        R.drawable.gude,
+        MediaPlayer.create(context, R.raw.ori)
+    )
+    songsList = songsList + GridModal(
+        "O Madhu O Madhu",
+        R.drawable.jul,
+        MediaPlayer.create(context, R.raw.madhu)
+    )
+    songsList = songsList + GridModal(
+        "nuvvu Vasthanu ante ",
+        R.drawable.nv,
+        MediaPlayer.create(context, R.raw.nv)
+    )
+    songsList = songsList + GridModal(
+        " Dhosthi ",
+        R.drawable.rrr,
+        MediaPlayer.create(context, R.raw.dt)
+    )
+    songsList = songsList + GridModal(
+        "Masteraru masteraru",
+        R.drawable.sirs,
+        MediaPlayer.create(context, R.raw.sir)
+    )
+    songsList = songsList + GridModal(
+        "   Nachavule  ",
+        R.drawable.vir,
+        MediaPlayer.create(context, R.raw.viru)
+    )
+    songsList = songsList + GridModal(
+        " Chodaga  ",
+        R.drawable.cho,
+        MediaPlayer.create(context, R.raw.choda)
+    )
+    songsList = songsList + GridModal(
+        "Deva Deva ",
+        R.drawable.dev,
+        MediaPlayer.create(context, R.raw.devaa)
+    )
+    songsList = songsList + GridModal(
+        "Maan meri Jaan",
+        R.drawable.man,
+        MediaPlayer.create(context, R.raw.jaanss)
+    )
+    songsList = songsList + GridModal(
+        "Kesariya tera",
+        R.drawable.kes,
+        MediaPlayer.create(context, R.raw.kesa)
+    )
+//    Icon Symbol to stop
+    Row(
+        modifier = Modifier.padding(1.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        IconButton(onClick = {
+            song--
+            if (song <= 0) {
+                song = songsList.size-1
+            }
+            a.reset()
+            a = songsList[song].song
+            a.start()
+        }) {
+            Icon(
+                painterResource(id = R.drawable.ic_outline_fast_rewind_24),
+                contentDescription = "Backward"
+            )
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        IconButton(onClick = {
+            if (!is_selected) {
+                is_selected = true
+                Toast.makeText(context, "Start", Toast.LENGTH_SHORT).show()
+            } else {
+                is_selected = false
+                Toast.makeText(context, "pause", Toast.LENGTH_SHORT).show()
+            }
+        }) {
+            if (is_selected) {
+                a.start()
+                Icon(
+                    painterResource(id = R.drawable.ic_baseline_pause_24),
+                    contentDescription = "Pause",
+                    modifier = Modifier
+                        .size(45.dp)
+                        .background(Color.Yellow)
+                )
+            } else {
+                stop(a)
+                Icon(
+                    painterResource(id = R.drawable.ic_baseline_play_arrow_24),
+                    contentDescription = "Play",
+                    modifier = Modifier
+                        .size(45.dp)
+                        .background(Color.Yellow)
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        IconButton(onClick = {
+
+            song++
+            if (song >= songsList.size) {
+                song = 0
+            }
+            a.reset()
+            a = songsList[song].song
+            a.start()
+        }) {
+            Icon(
+                painterResource(id = R.drawable.ic_outline_fast_forward_24),
+                contentDescription = "Forward"
+            )
+        }
     }
     Spacer(modifier =  Modifier.height(10.dp))
-    Text(
-        text = "Click above Symbol  to stop the songs",
-        color = Color.Blue, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis
-    )
-    Spacer(modifier =  Modifier.height(10.dp))
-        lateinit var songsList: List<GridModal>
-        songsList = ArrayList()
 
-        songsList = songsList + GridModal(
-            "Yenno ratrulu vasthai",
-            R.drawable.ami,
-            MediaPlayer.create(context, R.raw.amigo)
-        )
-        songsList = songsList + GridModal(
-            "chimiki chimiki",
-            R.drawable.chim,
-            MediaPlayer.create(context, R.raw.chim)
-        )
-        songsList = songsList + GridModal(
-            "Gudellona Gudellona",
-            R.drawable.gude,
-            MediaPlayer.create(context, R.raw.ori)
-        )
-        songsList = songsList + GridModal(
-            "O Madhu O Madhu",
-            R.drawable.jul,
-            MediaPlayer.create(context, R.raw.madhu)
-        )
-        songsList = songsList + GridModal(
-            "nuvvu Vasthanu ante ",
-            R.drawable.nv,
-            MediaPlayer.create(context, R.raw.nv)
-        )
-        songsList = songsList + GridModal(
-            " Dhosthi ",
-            R.drawable.rrr,
-            MediaPlayer.create(context, R.raw.dt)
-        )
-        songsList = songsList + GridModal(
-            "Masteraru masteraru",
-            R.drawable.sirs,
-            MediaPlayer.create(context, R.raw.sir)
-        )
-        songsList = songsList + GridModal(
-            "   Nachavule  ",
-            R.drawable.vir,
-            MediaPlayer.create(context, R.raw.viru)
-        )
-        songsList = songsList + GridModal(
-            " Chodaga  ",
-            R.drawable.cho,
-            MediaPlayer.create(context, R.raw.choda)
-        )
-        songsList = songsList + GridModal(
-            "Deva Deva ",
-            R.drawable.dev,
-            MediaPlayer.create(context, R.raw.devaa)
-        )
-        songsList = songsList + GridModal(
-            "Maan meri Jaan",
-            R.drawable.man,
-            MediaPlayer.create(context, R.raw.jaanss)
-        )
-        songsList = songsList + GridModal(
-            "Kesariya tera",
-            R.drawable.kes,
-            MediaPlayer.create(context, R.raw.kesa)
-        )
+//     it checks whether the song is Completed or not
 
+
+    a.setOnCompletionListener { mp->
+            song++
+        if (song>=songsList.size){
+            song=0
+        }
+        a.reset()
+        a=songsList[song].song
+        a.start()
+    }
 
         LazyVerticalGrid(
             cells = GridCells.Fixed(2), modifier = Modifier
@@ -196,6 +266,8 @@ fun gridView(context: Context) {
                         stop(a)
                         songsList[it].song.start()
                         a = songsList[it].song
+                        is_selected=true
+                        song= songsList.indexOf(songsList[it])
                     },
                     modifier = Modifier
                         .padding(8.dp)
@@ -232,9 +304,10 @@ fun gridView(context: Context) {
 
         }
         }
-private fun stop(am:MediaPlayer){
+private fun stop(am:MediaPlayer) {
     am.pause()
 }
+
 @Preview(showBackground = true, showSystemUi = true )
 @Composable
 fun DefaultPreview() {
