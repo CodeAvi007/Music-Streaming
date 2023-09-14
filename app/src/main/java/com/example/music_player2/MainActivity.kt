@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     //Nice ra Ballu
 //                                    tinnava ra
+//                                    hi ra dinesh
                                     
                                     // on below line we are specifying text alignment.
                                     textAlign = TextAlign.Center,
