@@ -1,8 +1,13 @@
-# Music-Streaming Application
+Music-Streaming Application
+
 Android Development
+
 Language : Kotlin
+
 Technology : Jetpack Compose
+
 IDLE: Android Studio
+
 In this application user can listen music by clicking on interested album.
 This is a begining application extension can be done based on our requirements.
 
@@ -15,7 +20,8 @@ In this apllication i am used functions are Vertical GridView ,Topbar View, acti
 ![m1](https://github.com/CodeAvi007/Music-Streaming/assets/124431955/9eb836af-d1d7-4ac8-bca9-d3a43cc121e5)
 
 
- We can listen songs using this application , we extend this application using many methods.
+ We can listen songs using this application ,
+ we extend this application using many methods.
 
 
 visit my code and send request to update our Music Streaming Application.
